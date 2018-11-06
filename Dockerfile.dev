@@ -1,0 +1,10 @@
+FROM node:10
+WORKDIR /etc/wx/
+
+COPY package*.json .babelrc ./
+
+RUN npm install
+
+COPY config.dev.json ./config.json
+
+CMD ["npm", "run", "dev"]

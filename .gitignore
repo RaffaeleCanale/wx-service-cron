@@ -1,0 +1,6 @@
+dist/*
+node_modules
+.directory
+config.js
+!dist/bundle.js
+devData/db

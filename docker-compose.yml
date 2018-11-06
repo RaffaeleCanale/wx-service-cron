@@ -1,0 +1,58 @@
+version: "3.3"
+
+services:
+    cron-service:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports:
+            - 3000:3000
+        volumes:
+            - "./src:/etc/wx/src"
+        networks:
+            - wx_net
+    mongodb:
+        image: mongo
+        container_name: "mongodb"
+        environment:
+            - MONGO_DATA_DIR=./devData/db
+            - MONGO_LOG_DIR=/dev/null
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=root
+            - MONGO_INITDB_DATABASE=wx_dev
+        volumes:
+          - ./devData/db:/data/db
+        ports:
+            - 27017:27017
+        networks:
+            - wx_net
+
+    mongo-express:
+        image: mongo-express
+        ports:
+            - 8081:8081
+        environment:
+            - ME_CONFIG_MONGODB_SERVER=mongodb
+            - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+            - ME_CONFIG_MONGODB_ADMINPASSWORD=root
+        networks:
+            - wx_net
+
+    rabbitmq:
+        image: "rabbitmq:3-management"
+        # hostname: rabbitmq
+        environment:
+            # - RABBITMQ_ERLANG_COOKIE=d4194b9e-5674-4610-8f62-6fb06c9186da
+            - RABBITMQ_DEFAULT_USER=rabbitmq
+            - RABBITMQ_DEFAULT_PASS=rabbitmq
+            - TZ=Europe/Zurich
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        networks:
+            - wx_net
+
+
+networks:
+  wx_net:
+    driver: "bridge"

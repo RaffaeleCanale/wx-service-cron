@@ -1,0 +1,19 @@
+{
+    "config": {
+    },
+    "server": {
+        "port": 3000
+    },
+    "db": {
+        "host": "mongodb",
+        "port": 27017,
+        "user": "root",
+        "password": "root",
+        "db": "admin"
+    },
+    "rabbitmq": {
+        "hostname": "rabbitmq",
+        "username": "rabbitmq",
+        "password": "rabbitmq"
+    }
+}
